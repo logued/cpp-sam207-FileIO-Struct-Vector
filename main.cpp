@@ -3,6 +3,7 @@
 #include <fstream>
 #include <sstream>
 #include <iomanip>
+#include <vector>
 using namespace std;
 
 struct Student
@@ -37,7 +38,7 @@ void parseLine(string line,Student &stud)
     stud.age = stoi(temp);
 
 }
-void load(string fname)
+void load(string fname, vector<Student> &data)
 {
     ifstream fin(fname);
 
@@ -48,7 +49,7 @@ void load(string fname)
         {
             Student stud;
             parseLine(line, stud);
-            display(stud);
+            data.push_back(stud);
         }
         fin.close();
     }
@@ -65,9 +66,22 @@ int main() {
     stud.height = 1.7;
     stud.email = "peter@oscorp.com";
     //display(stud);
-    cout <<left<< setw(15)<< "Name" <<setw(5) <<"Age"<<setw(10)
-         << "Height" <<setw(50) <<"Email"<<endl;
+//    cout <<left<< setw(15)<< "Name" <<setw(5) <<"Age"<<setw(10)
+//         << "Height" <<setw(50) <<"Email"<<endl;
+    vector<Student> v;
+    load("student.txt", v);
 
-    load("student.txt");
+    for(Student &s: v)
+    {
+        s.age *=2;
+    }
+
+    for(vector<Student>::iterator iter = v.begin();
+    iter != v.end();
+    iter++)
+    {
+        display(*iter);
+    }
+
     return 0;
 }
