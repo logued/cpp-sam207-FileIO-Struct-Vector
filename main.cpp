@@ -4,6 +4,7 @@
 #include <sstream>
 #include <iomanip>
 #include <vector>
+#include <algorithm>
 using namespace std;
 
 struct Student
@@ -58,6 +59,27 @@ void load(string fname, vector<Student> &data)
         cout << "Error opening file." <<endl;
     }
 }
+void writeToFile(const vector<Student> &data)
+{
+    ofstream out("Out.txt");
+    if(out)
+    {
+        for(int i = 0; i < data.size();i++)
+        {
+            out <<left
+                << setw(15)<< data[i].name
+                <<setw(50)<<data[i].email
+                <<setw(5) <<data[i].age
+                <<setw(10)<< data[i].height
+                <<endl;
+        }
+        out.close();
+    }
+    else
+    {
+        cout << "Error opening file."<<endl;
+    }
+}
 int main() {
 
     Student stud;
@@ -75,13 +97,17 @@ int main() {
     {
         s.age *=2;
     }
-
+    auto func =
+            [](Student s1, Student s2){return s1.height > s2.height;};
+    sort(v.begin(), v.end(), func);
+    /*
     for(vector<Student>::iterator iter = v.begin();
     iter != v.end();
     iter++)
     {
         display(*iter);
-    }
+    }*/
+    writeToFile(v);
 
     return 0;
 }

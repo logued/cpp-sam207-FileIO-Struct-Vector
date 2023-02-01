@@ -1,3 +1,3 @@
 derek flood,1.85,derek.flood@dkit.ie,21
-tony,1.85,tony.stark@dkit.ie,49
-jane,1.85,jane.foster@dkit.ie,31
+tony,1.65,tony.stark@dkit.ie,49
+jane,1.9,jane.foster@dkit.ie,31
