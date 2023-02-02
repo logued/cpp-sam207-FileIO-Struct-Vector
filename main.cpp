@@ -1,10 +1,10 @@
 #include <iostream>
 #include <string>
 #include <fstream>
-#include <sstream>
 #include <iomanip>
 #include <vector>
 #include <algorithm>
+
 using namespace std;
 
 struct Student
@@ -15,65 +15,63 @@ struct Student
     int age;
 };
 
-void display(const Student &stud)
+void display(const Student& student)
 {
-    cout <<left
-    << setw(15)<< stud.name
-    <<setw(5) <<stud.age
-    <<setw(10)<< stud.height
-    <<setw(50)<<stud.email
+    cout <<left                     // keep to left
+    <<setw(15)<< student.name       // set width of column for output
+    <<setw(5) << student.age
+    <<setw(10)<< student.height
+    <<setw(50)<< student.email
     <<endl;
-
 }
-void parseLine(string line,Student &stud)
-{
 
+void parseLine( string line, Student& student )
+{
     string temp;
     stringstream ss(line);
-    getline(ss, stud.name, ',');
+    getline(ss, student.name, ',');
     getline(ss, temp, ',');
-    stud.height = stod(temp);
-
-    getline(ss, stud.email, ',');
+    student.height = stod(temp);    // string to double
+    getline(ss, student.email, ',');
     getline(ss, temp, ',');
-    stud.age = stoi(temp);
-
+    student.age = stoi(temp);   // string to int
 }
-void load(string fname, vector<Student> &data)
-{
-    ifstream fin(fname);
 
-    if(fin)
+void load(string fileName, vector<Student>& vector_Student)
+{
+    ifstream ifs(fileName);
+
+    if(ifs)
     {
         string line;
-        while(getline(fin, line))
+        while(getline(ifs, line))
         {
-            Student stud;
-            parseLine(line, stud);
-            data.push_back(stud);
+            Student tempStudent;
+            parseLine(line, tempStudent);
+            vector_Student.push_back(tempStudent);
         }
-        fin.close();
+        ifs.close();
     }
     else
     {
         cout << "Error opening file." <<endl;
     }
 }
-void writeToFile(const vector<Student> &data)
+void writeToFile(const vector<Student>& vector_student)
 {
-    ofstream out("Out.txt");
-    if(out)
+    ofstream ofs("Out.txt");
+    if(ofs)
     {
-        for(int i = 0; i < data.size();i++)
+        for(int i = 0; i < vector_student.size();i++)
         {
-            out <<left
-                << setw(15)<< data[i].name
-                <<setw(50)<<data[i].email
-                <<setw(5) <<data[i].age
-                <<setw(10)<< data[i].height
+            ofs <<left
+                <<setw(15)<< vector_student[i].name // can also use "vector_student.at(i).name"
+                <<setw(50)<< vector_student[i].email
+                <<setw(5) << vector_student[i].age
+                <<setw(10)<< vector_student[i].height
                 <<endl;
         }
-        out.close();
+        ofs.close();
     }
     else
     {
@@ -81,33 +79,35 @@ void writeToFile(const vector<Student> &data)
     }
 }
 int main() {
+    cout << "sam207 FileIO Struct Vector sample" << endl;
 
-    Student stud;
-    stud.age = 21;
-    stud.name = "Peter";
-    stud.height = 1.7;
-    stud.email = "peter@oscorp.com";
-    //display(stud);
-//    cout <<left<< setw(15)<< "Name" <<setw(5) <<"Age"<<setw(10)
-//         << "Height" <<setw(50) <<"Email"<<endl;
-    vector<Student> v;
-    load("student.txt", v);
+    Student student;
+    student.age = 21;
+    student.name = "Peter";
+    student.height = 1.7;
+    student.email = "peter@oscorp.com";
+    display(student);
 
-    for(Student &s: v)
-    {
-        s.age *=2;
-    }
-    auto func =
-            [](Student s1, Student s2){return s1.height > s2.height;};
-    sort(v.begin(), v.end(), func);
-    /*
-    for(vector<Student>::iterator iter = v.begin();
-    iter != v.end();
-    iter++)
-    {
+    vector<Student> vector_student;
+    load("student.txt", vector_student);
+
+    // declare a pointer to a function that will compare two Student structs based on height
+    auto compare_function = [](Student s1, Student s2){return s1.height > s2.height;};
+
+    sort(vector_student.begin(), vector_student.end(), compare_function);
+
+    cout << "Shipping Records from the vector (obtained by Iterator)" << endl;
+    // vector<Student>::Iterator
+    for(auto iter = vector_student.begin(); iter != vector_student.end(); iter++) {
         display(*iter);
-    }*/
-    writeToFile(v);
+    }
 
+    writeToFile(vector_student);
+
+    //If we need to update all elements in a vector we can use the following
+    for( Student& stud: vector_student )     // stu is reference to an element
+    {
+        stud.age = stud.age + 1;    // increment age by 1
+    }
     return 0;
 }
