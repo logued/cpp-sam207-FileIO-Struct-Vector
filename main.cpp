@@ -37,7 +37,7 @@ void parseLine( string line, Student& student )
     student.age = stoi(temp);   // string to int
 }
 
-void load(string fileName, vector<Student>& vector_Student)
+void load(string fileName, vector<Student>& vector_student)
 {
     ifstream ifs(fileName);
 
@@ -48,7 +48,7 @@ void load(string fileName, vector<Student>& vector_Student)
         {
             Student tempStudent;
             parseLine(line, tempStudent);
-            vector_Student.push_back(tempStudent);
+            vector_student.push_back(tempStudent);
         }
         ifs.close();
     }
@@ -96,7 +96,7 @@ int main() {
 
     sort(vector_student.begin(), vector_student.end(), compare_function);
 
-    cout << "Shipping Records from the vector (obtained by Iterator)" << endl;
+    cout << "List Shipping Records from the vector (obtained by Iterator)" << endl;
     // vector<Student>::Iterator
     for(auto iter = vector_student.begin(); iter != vector_student.end(); iter++) {
         display(*iter);
