@@ -37,10 +37,9 @@ void parseLine( string line, Student& student )
     student.age = stoi(temp);   // string to int
 }
 
-void load(string fileName, vector<Student>& vector_student)
+void loadVectorFromFile(string fileName, vector<Student>& vector_student)
 {
     ifstream ifs(fileName);
-
     if(ifs)
     {
         string line;
@@ -89,7 +88,7 @@ int main() {
     display(student);
 
     vector<Student> vector_student;
-    load("student.txt", vector_student);
+    loadVectorFromFile("student.txt", vector_student);
 
     // declare a pointer to a function that will compare two Student structs based on height
     auto compare_function = [](Student s1, Student s2){return s1.height > s2.height;};
