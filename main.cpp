@@ -47,7 +47,7 @@ void loadVectorFromFile(string fileName, vector<Student>& vector_student)
         {
             Student tempStudent;
             parseLine(line, tempStudent);
-            vector_student.push_back(tempStudent);
+            vector_student.push_back(tempStudent);  // push copy of temp to new struct at end of vector
         }
         ifs.close();
     }
@@ -80,6 +80,7 @@ void writeToFile(const vector<Student>& vector_student)
 int main() {
     cout << "sam207 FileIO Struct Vector sample" << endl;
 
+    // Create, populate and display a Student struct
     Student student;
     student.age = 21;
     student.name = "Peter";
@@ -87,7 +88,9 @@ int main() {
     student.email = "peter@oscorp.com";
     display(student);
 
+    // declare a vector of Student struct objects
     vector<Student> vector_student;
+
     loadVectorFromFile("student.txt", vector_student);
 
     // declare a pointer to a function that will compare two Student structs based on height
@@ -104,7 +107,7 @@ int main() {
     writeToFile(vector_student);
 
     //If we need to update all elements in a vector we can use the following
-    for( Student& stud: vector_student )     // stu is reference to an element
+    for( Student& stud: vector_student )     // stud is reference to an element
     {
         stud.age = stud.age + 1;    // increment age by 1
     }
